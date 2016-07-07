@@ -531,7 +531,7 @@ uis.controller('uiSelectCtrl',
 
     var key = e.which;
 
-    if (~[KEY.ENTER,KEY.ESC].indexOf(key)){
+    if (~[KEY.ENTER,KEY.ESC,KEY.TAB].indexOf(key)){
       e.preventDefault();
       e.stopPropagation();
     }
