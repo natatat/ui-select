@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.18.0 - 2016-07-07T17:02:53.860Z
+ * Version: 0.18.0 - 2016-07-07T17:08:56.403Z
  * License: MIT
  */
 
@@ -796,7 +796,7 @@ uis.controller('uiSelectCtrl',
 
     var key = e.which;
 
-    if (~[KEY.ENTER,KEY.ESC].indexOf(key)){
+    if (~[KEY.ENTER,KEY.ESC,KEY.TAB].indexOf(key)){
       e.preventDefault();
       e.stopPropagation();
     }
