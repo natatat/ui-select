@@ -496,7 +496,7 @@ uis.controller('uiSelectCtrl',
     });
   };
 
-  function _handleDropDownSelection(key) {
+  function _handleDropDownSelection(key, e) {
     var processed = true;
     switch (key) {
       case KEY.DOWN:
@@ -508,7 +508,11 @@ uis.controller('uiSelectCtrl',
         else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0 && ctrl.tagging.isActivated && ctrl.activeIndex > -1)) { ctrl.activeIndex--; }
         break;
       case KEY.TAB:
-        if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);
+        if (!ctrl.multiple || ctrl.open) {
+          ctrl.select(ctrl.items[ctrl.activeIndex], true);
+          e.preventDefault();
+          e.stopPropagation();
+        }
         break;
       case KEY.ENTER:
         if(ctrl.open && (ctrl.tagging.isActivated || ctrl.activeIndex >= 0)){
@@ -531,7 +535,7 @@ uis.controller('uiSelectCtrl',
 
     var key = e.which;
 
-    if (~[KEY.ENTER,KEY.ESC,KEY.TAB].indexOf(key)){
+    if (~[KEY.ENTER,KEY.ESC].indexOf(key)){
       e.preventDefault();
       e.stopPropagation();
     }
@@ -546,7 +550,7 @@ uis.controller('uiSelectCtrl',
       var tagged = false;
 
       if (ctrl.items.length > 0 || ctrl.tagging.isActivated) {
-        _handleDropDownSelection(key);
+        _handleDropDownSelection(key, e);
         if ( ctrl.taggingTokens.isActivated ) {
           for (var i = 0; i < ctrl.taggingTokens.tokens.length; i++) {
             if ( ctrl.taggingTokens.tokens[i] === KEY.MAP[e.keyCode] ) {
