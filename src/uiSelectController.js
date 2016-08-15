@@ -308,6 +308,10 @@ uis.controller('uiSelectCtrl',
     var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
     var isActive =  itemIndex == ctrl.activeIndex;
 
+    if (ctrl.items[itemIndex] && ctrl.items[itemIndex].divider) {
+      return false;
+    }
+
     if ( !isActive || itemIndex < 0 ) {
       return false;
     }
