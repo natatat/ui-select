@@ -23,7 +23,7 @@ var KEY = {
     PAGE_UP: 33,
     PAGE_DOWN: 34,
     HOME: 36,
-    END: 35,
+    END: 35,helltool/datafl
     BACKSPACE: 8,
     DELETE: 46,
     COMMAND: 91,
@@ -595,6 +595,10 @@ uis.controller('uiSelectCtrl',
     var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
     var isActive =  itemIndex == ctrl.activeIndex;
 
+    if (ctrl.items[itemIndex] && ctrl.items[itemIndex].divider) {
+      return false;
+    }
+
     if ( !isActive || itemIndex < 0 ) {
       return false;
     }
@@ -847,7 +851,7 @@ uis.controller('uiSelectCtrl',
     });
   };
 
-  function _handleDropDownSelection(key) {
+  function _handleDropDownSelection(key, e) {
     var processed = true;
     switch (key) {
       case KEY.DOWN:
@@ -859,7 +863,11 @@ uis.controller('uiSelectCtrl',
         else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0 && ctrl.tagging.isActivated && ctrl.activeIndex > -1)) { ctrl.activeIndex--; }
         break;
       case KEY.TAB:
-        if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);
+        if (!ctrl.multiple || ctrl.open) {
+          ctrl.select(ctrl.items[ctrl.activeIndex], true);
+          e.preventDefault();
+          e.stopPropagation();
+        }
         break;
       case KEY.ENTER:
         if(ctrl.open && (ctrl.tagging.isActivated || ctrl.activeIndex >= 0)){
