@@ -143,6 +143,17 @@ uis.directive('uiSelect',
           }
         });
 
+        attrs.$observe('spinnerEnabled', function() {
+          // $eval() is needed otherwise we get a string instead of a boolean
+          var spinnerEnabled = scope.$eval(attrs.spinnerEnabled);
+          $select.spinnerEnabled = spinnerEnabled !== undefined ? spinnerEnabled : uiSelectConfig.spinnerEnabled;
+        });
+
+        attrs.$observe('spinnerClass', function() {
+          var spinnerClass = attrs.spinnerClass;
+          $select.spinnerClass = spinnerClass !== undefined ? attrs.spinnerClass : uiSelectConfig.spinnerClass;
+        });
+
         //Automatically gets focus when loaded
         if (angular.isDefined(attrs.autofocus)){
           $timeout(function(){
@@ -360,6 +371,8 @@ uis.directive('uiSelect',
           });
         };
 
+        var opened = false;
+        
         scope.calculateDropdownPos = function() {
           if ($select.open) {
             dropdown = angular.element(element).querySelectorAll('.ui-select-dropdown');
@@ -368,8 +381,11 @@ uis.directive('uiSelect',
               return;
             }
 
-            // Hide the dropdown so there is no flicker until $timeout is done executing.
-            dropdown[0].style.opacity = 0;
+           // Hide the dropdown so there is no flicker until $timeout is done executing.
+           if ($select.search === '' && !opened) {
+              dropdown[0].style.opacity = 0;
+              opened = true;
+           }
 
             if (!uisOffset(dropdown).height && $select.$animate && $select.$animate.on && $select.$animate.enabled(dropdown)) {
               var needsCalculated = true;

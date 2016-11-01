@@ -23,22 +23,25 @@ before_script:
 script: "gulp test"
 
 after_success:
-  - "gulp docs"
+  - "gulp changelog"
 
 deploy:
-  skip_cleanup: true
-  provider: "script"
-  script: "bash ./deploy-docs.sh"
-  on:
-    all_branches: true
-#  on:
-#    tags: true
-  provider: npm
-  email: aaronaroberson@gmail.com
-  api_key:
-    secure: AUjI1lAZofXXFN2/CH497TN1hqm+fAUXKJCBjxmd0xiSrNUgMZqjg96g5R6OU11+zFRwcuvIWKvBcjiozSbej5zaU2Eh6amrJN+cM4cfLf4ljAdnHPGs4divlFchbqX1ThNQsLfC/dZZCVBo4oOvTz8l2L3LLwOYZkngQ0DoiHE=
-  on:
-    tags: true
+
+  - provider: "script"
+    skip_cleanup: true
+    script: "bash ./deploy-docs.sh"
+    on:
+      tags: true
+  - provider: npm
+    email: aaronaroberson@gmail.com
+    api_key:
+      secure: AUjI1lAZofXXFN2/CH497TN1hqm+fAUXKJCBjxmd0xiSrNUgMZqjg96g5R6OU11+zFRwcuvIWKvBcjiozSbej5zaU2Eh6amrJN+cM4cfLf4ljAdnHPGs4divlFchbqX1ThNQsLfC/dZZCVBo4oOvTz8l2L3LLwOYZkngQ0DoiHE=
+    on:
+      tags: true
+
+after_success:
+  - "deploy-docs"
+
 sudo: false
 
 git:
