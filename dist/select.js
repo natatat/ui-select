@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.5 - 2016-10-24T23:13:59.434Z
+ * Version: 0.19.6 - 2016-11-01T19:11:08.927Z
  * License: MIT
  */
 
@@ -23,7 +23,7 @@ var KEY = {
     PAGE_UP: 33,
     PAGE_DOWN: 34,
     HOME: 36,
-    END: 35,helltool/datafl
+    END: 35,
     BACKSPACE: 8,
     DELETE: 46,
     COMMAND: 91,
@@ -581,7 +581,7 @@ uis.controller('uiSelectCtrl',
         var refreshPromise =  $scope.$eval(refreshAttr);
         if (refreshPromise && angular.isFunction(refreshPromise.then) && !ctrl.refreshing) {
           ctrl.refreshing = true;
-          refreshPromise.then(function() {
+          refreshPromise.finally(function() {
             ctrl.refreshing = false;
           });
       }}, ctrl.refreshDelay);
@@ -710,7 +710,7 @@ uis.controller('uiSelectCtrl',
             ctrl.close(skipFocusser);
             return;
           }
-        }        
+        }
         _resetSearchInput();
         $scope.$broadcast('uis:select', item);
 
@@ -786,7 +786,7 @@ uis.controller('uiSelectCtrl',
         }
 
       if (!isLocked && lockedItemIndex > -1) {
-        lockedItems.splice(lockedItemIndex, 0);
+        lockedItems.splice(lockedItemIndex, 1);
       }
     }
 
@@ -895,12 +895,17 @@ uis.controller('uiSelectCtrl',
       e.stopPropagation();
     }
 
+    // if(~[KEY.ESC,KEY.TAB].indexOf(key)){
+    //   //TODO: SEGURO?
+    //   ctrl.close();
+    // }
+
     $scope.$apply(function() {
 
       var tagged = false;
 
       if (ctrl.items.length > 0 || ctrl.tagging.isActivated) {
-        if(!_handleDropDownSelection(key) && !ctrl.searchEnabled) {
+        if(!_handleDropDownSelection(key, e) && !ctrl.searchEnabled) {
           e.preventDefault();
           e.stopPropagation();
         }

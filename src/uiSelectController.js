@@ -629,7 +629,7 @@ uis.controller('uiSelectCtrl',
       var tagged = false;
 
       if (ctrl.items.length > 0 || ctrl.tagging.isActivated) {
-        if(!_handleDropDownSelection(key) && !ctrl.searchEnabled) {
+        if(!_handleDropDownSelection(key, e) && !ctrl.searchEnabled) {
           e.preventDefault();
           e.stopPropagation();
         }
